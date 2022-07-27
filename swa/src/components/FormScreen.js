@@ -27,9 +27,15 @@ function FormScreen({ setForm }) {
         Email: email,
       });
       await axios
-        .post(`/api/salesforce/services/data/v55.0/sobjects/Lead`, data, {
-          "Content-Type": "application/json",
-        })
+        .post(
+          `https://ashy-ground-0e9efb810.1.azurestaticapps.net/api/salesforce/services/data/v55.0/sobjects/Lead`,
+          data,
+          {
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        )
         .then((response) => {
           console.log(response);
           console.log(feedback);
