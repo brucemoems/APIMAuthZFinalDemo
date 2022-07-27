@@ -22,7 +22,7 @@ export const appTheme = createTheme({
     },
   },
   palette: {
-    themePrimary: "#0078d4",
+    themePrimary: "#038387",
     themeSecondary: "#323130",
     themeTertiary: "#ffffff",
   },

@@ -1,122 +1,48 @@
 import styles from "./App.module.css";
 import { Container, Row, Col } from "react-bootstrap";
 import React, { useState } from "react";
-import {
-  FontSizes,
-  Text,
-  TextField,
-  PrimaryButton,
-  DefaultPalette,
-  Spinner,
-  SpinnerSize,
-} from "@fluentui/react";
-import axios from "axios";
+import { FontSizes, Text } from "@fluentui/react";
+import FormScreen from "./components/FormScreen";
+import TwitterScreen from "./components/TwitterScreen";
+import { initializeIcons } from "@fluentui/font-icons-mdl2";
 
 function App() {
-  const [alias, setAlias] = useState("");
-  const [comment, setComment] = useState("");
-
-  const [commentUrl, setCommentUrl] = useState("");
-
-  const [loaded, setLoaded] = useState(true);
-  const [success, setSuccess] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setLoaded(false);
-      setSuccess(false);
-
-      var data = JSON.stringify({
-        query: `mutation {
-        addDiscussionComment(input: { body: "${alias} - ${comment}", discussionId: "D_kwDOHiNKns4AP3wj" }) {
-          comment {
-            url
-          }
-        }
-      }`,
-        variables: {},
-      });
-
-      await axios.post(`/api/github-gql`, data).then((response) => {
-        console.log(response);
-        setCommentUrl(response.data.data.addDiscussionComment.comment.url);
-        setLoaded(true);
-        setSuccess(true);
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  initializeIcons();
+  const [form, setForm] = useState(true);
 
   return (
-    <Container
-      style={{
-        height: "100vh",
-      }}
-      fluid
-    >
-      <Row>
-        <Col className={styles.edge}></Col>
-        <Col xs={5} className={styles.middle + " mt-5"}>
-          <Text style={{ fontSize: FontSizes.xxLargePlus }} className="mb-3">
-            {" "}
-            APIM Authorizations Demo Feedback Form{" "}
-          </Text>
-          <TextField
-            placeholder="Enter your Github alias"
-            label="Alias"
-            required
-            onChange={(_, newValue) => setAlias(newValue)}
-            className="mb-2"
-          />
-          <TextField
-            placeholder="Enter comment"
-            label="Comment"
-            multiline
-            autoAdjustHeight
-            required
-            className="mb-4"
-            onChange={(_, newValue) => {
-              setComment(newValue);
-            }}
-          />
-          {loaded ? (
-            <PrimaryButton
-              className="mb-4"
-              onClick={(e) => handleSubmit(e)}
-              variant="primary"
-            >
-              Submit
-            </PrimaryButton>
-          ) : (
-            <Spinner size={SpinnerSize.large} />
-          )}
-
-          {success ? (
-            <Col
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+    <Container className={styles.container} fluid>
+      <Row className={styles.row}>
+        <Col xs={4} className="mt-5 p-0">
+          <div className={styles.formContainer}>
+            <div className={styles.formHeader + " mb-5"}>
               <Text
-                className="mb-2"
-                style={{ color: DefaultPalette.themePrimary }}
+                style={{ fontSize: FontSizes.xxLargePlus }}
+                className={styles.formText}
               >
                 {" "}
-                Successfully created comment!
+                DevDiv 2022 Intern Feedback Form{" "}
               </Text>
-              <Text>
-                <a target="_blank" rel="noopener noreferrer" href={commentUrl}>
-                  View in repo
-                </a>
-              </Text>
-            </Col>
-          ) : null}
+            </div>
+            {form ? (
+              <div
+                style={{
+                  width: "85%",
+                }}
+              >
+                <Text style={{ fontSize: FontSizes.medium }}>
+                  {" "}
+                  Note: Your contact info and feedback will be used for
+                  Microsoft internal purposes only{" "}
+                </Text>
+
+                <FormScreen setForm={setForm}></FormScreen>
+              </div>
+            ) : (
+              <TwitterScreen setForm={setForm}></TwitterScreen>
+            )}
+          </div>
         </Col>
-        <Col className={styles.edge}></Col>
       </Row>
     </Container>
   );
