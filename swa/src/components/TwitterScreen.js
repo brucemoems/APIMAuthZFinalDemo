@@ -48,7 +48,10 @@ function TwitterScreen({ setForm }) {
       />
       <div className="mb-5">
         <ActionButton
-          onClick={(e) => handleSubmit(e)}
+          onClick={(e) => {
+            console.log(tweet);
+            handleSubmit(e);
+          }}
           iconProps={{ iconName: "Back" }}
         >
           Submit another response

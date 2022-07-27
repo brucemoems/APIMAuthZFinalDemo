@@ -28,6 +28,7 @@ function FormScreen({ setForm }) {
       });
       await axios.post(`/api/salesforce`, data).then((response) => {
         console.log(response);
+        console.log(feedback);
         setLoading(false);
         setForm(false);
       });
