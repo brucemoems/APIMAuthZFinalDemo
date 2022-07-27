@@ -26,12 +26,16 @@ function FormScreen({ setForm }) {
         Phone: phone,
         Email: email,
       });
-      await axios.post(`/api/salesforce`, data).then((response) => {
-        console.log(response);
-        console.log(feedback);
-        setLoading(false);
-        setForm(false);
-      });
+      await axios
+        .post(`/api/salesforce/services/data/v55.0/sobjects/Lead`, data, {
+          "Content-Type": "application/json",
+        })
+        .then((response) => {
+          console.log(response);
+          console.log(feedback);
+          setLoading(false);
+          setForm(false);
+        });
     } catch (err) {
       console.error(err);
     }

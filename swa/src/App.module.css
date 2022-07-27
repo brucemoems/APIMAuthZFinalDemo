@@ -8,9 +8,11 @@
 
 .container {
   height: 100vh;
-  background: #6190e8;
-  background: -webkit-linear-gradient(to right, #a7bfe8, #6190e8);
-  background: linear-gradient(to right, #a7bfe8, #6190e8);
+  background: linear-gradient(
+    112.1deg,
+    rgb(32, 38, 57) 11.4%,
+    rgb(63, 76, 119) 70.2%
+  );
 }
 
 .row {
