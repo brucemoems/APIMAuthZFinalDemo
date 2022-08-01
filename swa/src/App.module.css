@@ -1,5 +1,5 @@
 .formHeader {
-  padding: 70px;
+  padding: 60px;
   background-color: #038387;
   text-align: center;
   width: 100%;
@@ -13,6 +13,8 @@
     rgb(32, 38, 57) 11.4%,
     rgb(63, 76, 119) 70.2%
   );
+  display: flex;
+  align-items: center;
 }
 
 .row {
@@ -23,6 +25,8 @@
 
 .formContainer {
   background-color: white;
+  max-height: 100%;
+  overflow-y: auto;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -34,5 +38,4 @@
 
 .formText {
   color: white;
-  overflow: hidden;
 }

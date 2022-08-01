@@ -27,15 +27,11 @@ function FormScreen({ setForm }) {
         Email: email,
       });
       await axios
-        .post(
-          `https://ashy-ground-0e9efb810.1.azurestaticapps.net/api/salesforce/services/data/v55.0/sobjects/Lead`,
-          data,
-          {
-            headers: {
-              "content-type": "application/json",
-            },
-          }
-        )
+        .post(`/api/salesforce/services/data/v55.0/sobjects/Lead`, data, {
+          headers: {
+            "content-type": "application/json",
+          },
+        })
         .then((response) => {
           console.log(response);
           console.log(feedback);
@@ -50,14 +46,14 @@ function FormScreen({ setForm }) {
   return (
     <div className="mt-4">
       <TextField
-        placeholder="First Name"
+        placeholder="John"
         label="1. First Name"
         required
         onChange={(_, newValue) => setFirst(newValue)}
         className="mb-5"
       />
       <TextField
-        placeholder="Last Name"
+        placeholder="Doe"
         label="2. Last Name"
         required
         className="mb-5"
@@ -66,7 +62,7 @@ function FormScreen({ setForm }) {
         }}
       />
       <TextField
-        placeholder="Phone Number"
+        placeholder="xxx-xxx-xxxx"
         label="3. Phone Number"
         required
         className="mb-5"
@@ -75,7 +71,7 @@ function FormScreen({ setForm }) {
         }}
       />
       <TextField
-        placeholder="Email Address"
+        placeholder="john@outlook.com"
         label="4. Email"
         required
         className="mb-5"

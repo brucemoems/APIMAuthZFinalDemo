@@ -13,7 +13,7 @@ function App() {
   return (
     <Container className={styles.container} fluid>
       <Row className={styles.row}>
-        <Col xs={4} className="mt-5 p-0">
+        <Col xs={6} style={{ height: "90vh" }} className="p-0">
           <div className={styles.formContainer}>
             <div className={styles.formHeader + " mb-5"}>
               <Text
