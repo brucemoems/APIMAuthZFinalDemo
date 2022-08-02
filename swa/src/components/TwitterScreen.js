@@ -73,9 +73,7 @@ function TwitterScreen({ setPage }) {
           },
         })
         .then((response) => {
-          const id = response.data.id;
-          console.log(response);
-          console.log(response.data);
+          const id = response.data.data.id;
           var data = JSON.stringify({
             tweet_id: id,
           });
