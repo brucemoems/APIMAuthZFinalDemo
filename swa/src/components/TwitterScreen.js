@@ -7,34 +7,31 @@ import axios from "axios";
 function TwitterScreen({ setPage }) {
   const [tweet, setTweet] = useState("");
   const [userId, setUserId] = useState("");
+  const [alias, setAlias] = useState("");
   const [connected, setConnected] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios
-      .post("/.auth/me")
-      .then((userInfo) => {
-        if (userInfo && userInfo.data.clientPrincipal != null) {
-          setUserId(userInfo.data.clientPrincipal.userId);
-          console.log(userId);
-        }
-      })
-      .then(() => {
+    axios.post("/.auth/me").then((userInfo) => {
+      if (userInfo && userInfo.data.clientPrincipal != null) {
+        setUserId(userInfo.data.clientPrincipal.userId);
+        setAlias(userInfo.data.clientPrincipal.userDetails);
         console.log(userId);
-        axios
-          .get(`/api/.auth/status/bmoe-twitter`, {
-            headers: {
-              authorizationId: userId,
-            },
-          })
-          .then((response) => {
-            console.log(response);
-            if (response.data !== undefined && response.data === "CONNECTED") {
-              setConnected(true);
-            }
-          });
-      });
+      }
+      axios
+        .get(`/api/.auth/status/bmoe-twitter`, {
+          headers: {
+            authorizationId: userInfo.data.clientPrincipal.userId,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data !== undefined && response.data === "Connected") {
+            setConnected(true);
+          }
+        });
+    });
   }, []);
 
   const makeConnection = async (e) => {
@@ -101,7 +98,7 @@ function TwitterScreen({ setPage }) {
                 style={{
                   overflow: "hidden",
                 }}
-                className="mb-3"
+                className="mb-4"
               >
                 {" "}
                 Welcome to Intern Hub. Would you like to post about your
@@ -110,29 +107,47 @@ function TwitterScreen({ setPage }) {
               <Text> Step 1. Login using Microsoft </Text>
               {userId === "" ? (
                 <DefaultButton
+                  className="mt-2"
                   iconProps={{ iconName: "AuthenticatorApp" }}
                   href="/.auth/login/aad"
-                  style={{ width: "30%" }}
+                  style={{ width: "20%" }}
                 >
                   Login
                 </DefaultButton>
               ) : (
-                <Text style={{ fontWeight: "bold" }}> You are logged in</Text>
+                <div
+                  className="mt-2"
+                  style={{ display: "flex", flexDirection: "column" }}
+                >
+                  <Text style={{ fontWeight: "bold" }}>
+                    {" "}
+                    You are logged in as {alias}
+                  </Text>
+                  <DefaultButton
+                    className="mt-2"
+                    iconProps={{ iconName: "SignOut" }}
+                    href="/.auth/logout"
+                    style={{ width: "20%" }}
+                  >
+                    Logout
+                  </DefaultButton>
+                </div>
               )}
               <Text className="mt-3">
                 {" "}
                 Step 2. Connect your Twitter account{" "}
               </Text>
-              {connected !== "" ? (
+              {!connected ? (
                 <DefaultButton
-                  style={{ width: "30%" }}
+                  className="mt-2"
+                  style={{ width: "25%" }}
                   iconProps={{ iconName: "PlugConnected" }}
                   onClick={(e) => makeConnection(e)}
                 >
                   Connect to Twitter
                 </DefaultButton>
               ) : (
-                <Text style={{ fontWeight: "bold" }}>
+                <Text className="mt-2" style={{ fontWeight: "bold" }}>
                   {" "}
                   Your Twitter account is connected
                 </Text>
