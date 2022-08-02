@@ -11,11 +11,36 @@ function TwitterScreen({ setPage }) {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    axios
+      .post("/.auth/me")
+      .then((userInfo) => {
+        if (userInfo && userInfo.data.clientPrincipal != null) {
+          setUserId(userInfo.data.clientPrincipal.userId);
+          console.log(userId);
+        }
+      })
+      .then(() => {
+        console.log(userId);
+        axios
+          .get(`/api/.auth/status/bmoe-twitter`, {
+            headers: {
+              authorizationId: userId,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.data !== undefined && response.data === "CONNECTED") {
+              setConnected(true);
+            }
+          });
+      });
+  }, []);
+
   const makeConnection = async (e) => {
     var config = {
       method: "post",
-      url:
-        "https://ashy-ground-0e9efb810.1.azurestaticapps.net/api/.auth/create/bmoe-twitter",
+      url: "/api/.auth/create/bmoe-twitter",
       headers: {
         authorizationId: userId,
         postLoginRedirectUrl:
@@ -58,31 +83,6 @@ function TwitterScreen({ setPage }) {
       console.error(err);
     }
   };
-
-  useEffect(() => {
-    axios
-      .post("/.auth/me")
-      .then((userInfo) => {
-        if (userInfo && userInfo.data.clientPrincipal != null) {
-          setUserId(userInfo.data.clientPrincipal.userDetails);
-          console.log(userId);
-        }
-      })
-      .then(() => {
-        console.log(userId);
-        axios
-          .get(`/api/.auth/status/bmoe-twitter`, {
-            headers: {
-              authorizationId: userId,
-            },
-          })
-          .then((response) => {
-            if (response.data !== undefined && response.data === "CONNECTED") {
-              setConnected(true);
-            }
-          });
-      });
-  });
 
   return (
     <div
