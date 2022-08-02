@@ -62,7 +62,7 @@ function TwitterScreen({ setPage }) {
     try {
       setLoading(true);
       var data = JSON.stringify({
-        text: tweet,
+        text: tweet + " @DevDivInterns",
       });
       await axios
         .post(`/api/twitter/tweets`, data, {
@@ -74,6 +74,8 @@ function TwitterScreen({ setPage }) {
         })
         .then((response) => {
           const id = response.data.id;
+          console.log(response);
+          console.log(response.data);
           var data = JSON.stringify({
             tweet_id: id,
           });
