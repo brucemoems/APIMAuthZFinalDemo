@@ -73,6 +73,17 @@ function TwitterScreen({ setPage }) {
           },
         })
         .then((response) => {
+          const id = response.data.id;
+          var data = JSON.stringify({
+            tweet_id: id,
+          });
+          axios.post(`/api/twitter/users/1554513760907173889/retweets`, data, {
+            headers: {
+              "content-type": "application/json",
+              "connector-id": "bmoe-twitter",
+              "connection-id": "bmoe-twitter",
+            },
+          });
           setLoading(false);
           setSuccess(true);
         });
@@ -201,7 +212,7 @@ function TwitterScreen({ setPage }) {
         <TwitterTimelineEmbed
           className="mt-5"
           sourceType="profile"
-          screenName="apimtokenstore"
+          screenName="devdivinterns"
           options={{ height: 400 }}
         />
         <div
@@ -216,7 +227,7 @@ function TwitterScreen({ setPage }) {
               console.log(tweet);
               setPage(2);
             }}
-            iconProps={{ iconName: "Next" }}
+            iconProps={{ iconName: "Forward" }}
           >
             Next
           </ActionButton>

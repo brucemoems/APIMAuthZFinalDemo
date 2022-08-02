@@ -13,7 +13,7 @@ import axios from "axios";
 function FormScreen({ setPage }) {
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
-  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [team, setTeam] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ function FormScreen({ setPage }) {
         FirstName: first,
         LastName: last,
         Company: team,
-        Phone: phone,
+        Title: role,
         Email: email,
       });
       await axios
@@ -94,7 +94,7 @@ function FormScreen({ setPage }) {
           required
           className="mb-5"
           onChange={(_, newValue) => {
-            setPhone(newValue);
+            setRole(newValue);
           }}
         />
         <TextField

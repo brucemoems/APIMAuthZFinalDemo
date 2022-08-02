@@ -74,7 +74,7 @@ function FeedbackScreen({ setPage }) {
               onClick={(e) => {
                 setPage(3);
               }}
-              iconProps={{ iconName: "Next" }}
+              iconProps={{ iconName: "Forward" }}
             >
               Next
             </ActionButton>
