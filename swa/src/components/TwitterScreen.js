@@ -13,13 +13,17 @@ function TwitterScreen({ setPage }) {
 
   const makeConnection = async (e) => {
     axios
-      .post(`/api/.auth/create/bmoe-twitter`, null, {
-        headers: {
-          authorizationId: userId,
-          postLoginRedirectUrl:
-            "https://ashy-ground-0e9efb810.1.azurestaticapps.net/",
-        },
-      })
+      .post(
+        `/api/.auth/create/bmoe-twitter`,
+        {},
+        {
+          headers: {
+            authorizationId: userId,
+            postLoginRedirectUrl:
+              "https://ashy-ground-0e9efb810.1.azurestaticapps.net/",
+          },
+        }
+      )
       .then(() => {
         setConnected(true);
       })
@@ -61,11 +65,17 @@ function TwitterScreen({ setPage }) {
       if (userInfo && userInfo.data.clientPrincipal != null) {
         setUserId(userInfo.data.clientPrincipal.userDetails);
       }
-      axios.get(`/api/.token/status/bmoe-twitter`).then((response) => {
-        if (response.data !== undefined && response.data === "CONNECTED") {
-          setConnected(true);
-        }
-      });
+      axios
+        .get(`/api/.auth/status/bmoe-twitter`, {
+          headers: {
+            authorizationId: userId,
+          },
+        })
+        .then((response) => {
+          if (response.data !== undefined && response.data === "CONNECTED") {
+            setConnected(true);
+          }
+        });
     });
   });
 
