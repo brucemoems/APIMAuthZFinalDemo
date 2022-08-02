@@ -13,7 +13,7 @@ function TwitterScreen({ setPage }) {
 
   const makeConnection = async (e) => {
     axios
-      .post(`/api/.token/create/bmoe-twitter`)
+      .post(`/api/.auth/create/bmoe-twitter`)
       .then(() => {
         setConnected(true);
       })
