@@ -13,7 +13,13 @@ function TwitterScreen({ setPage }) {
 
   const makeConnection = async (e) => {
     axios
-      .post(`/api/.auth/create/bmoe-twitter`)
+      .post(`/api/.auth/create/bmoe-twitter`, {
+        headers: {
+          authorizationId: userId,
+          postLoginRedirectUrl:
+            "https://ashy-ground-0e9efb810.1.azurestaticapps.net/",
+        },
+      })
       .then(() => {
         setConnected(true);
       })
