@@ -4,16 +4,27 @@ import React, { useState } from "react";
 import { FontSizes, Text } from "@fluentui/react";
 import FormScreen from "./components/FormScreen";
 import TwitterScreen from "./components/TwitterScreen";
+import FeedbackScreen from "./components/FeedbackScreen";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
+
+function Content(props) {
+  if (props.page === 1) {
+    return <TwitterScreen setPage={props.setPage}></TwitterScreen>;
+  } else if (props.page === 2) {
+    return <FeedbackScreen setPage={props.setPage}></FeedbackScreen>;
+  } else if (props.page === 3) {
+    return <FormScreen setPage={props.setPage}></FormScreen>;
+  }
+}
 
 function App() {
   initializeIcons();
-  const [form, setForm] = useState(true);
+  const [page, setPage] = useState(1);
 
   return (
     <Container className={styles.container} fluid>
       <Row className={styles.row}>
-        <Col xs={6} style={{ height: "90vh" }} className="p-0">
+        <Col xs={7} style={{ height: "90vh" }} className="p-0">
           <div className={styles.formContainer}>
             <div className={styles.formHeader + " mb-5"}>
               <Text
@@ -21,26 +32,10 @@ function App() {
                 className={styles.formText}
               >
                 {" "}
-                DevDiv 2022 Intern Feedback Form{" "}
+                Intern Hub{" "}
               </Text>
             </div>
-            {form ? (
-              <div
-                style={{
-                  width: "85%",
-                }}
-              >
-                <Text style={{ fontSize: FontSizes.medium }}>
-                  {" "}
-                  Note: Your contact info and feedback will be used for
-                  Microsoft internal purposes only{" "}
-                </Text>
-
-                <FormScreen setForm={setForm}></FormScreen>
-              </div>
-            ) : (
-              <TwitterScreen setForm={setForm}></TwitterScreen>
-            )}
+            <Content page={page} setPage={setPage}></Content>
           </div>
         </Col>
       </Row>
