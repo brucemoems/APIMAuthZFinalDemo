@@ -12,18 +12,17 @@ function TwitterScreen({ setPage }) {
   const [loading, setLoading] = useState(false);
 
   const makeConnection = async (e) => {
-    axios
-      .post(
-        `/api/.auth/create/bmoe-twitter`,
-        {},
-        {
-          headers: {
-            authorizationId: userId,
-            postLoginRedirectUrl:
-              "https://ashy-ground-0e9efb810.1.azurestaticapps.net/",
-          },
-        }
-      )
+    var config = {
+      method: "post",
+      url:
+        "https://ashy-ground-0e9efb810.1.azurestaticapps.net/api/.auth/create/bmoe-twitter",
+      headers: {
+        authorizationId: userId,
+        postLoginRedirectUrl:
+          "https://ashy-ground-0e9efb810.1.azurestaticapps.net/",
+      },
+    };
+    axios(config)
       .then(() => {
         setConnected(true);
       })
@@ -61,22 +60,28 @@ function TwitterScreen({ setPage }) {
   };
 
   useEffect(() => {
-    axios.post("/.auth/me").then((userInfo) => {
-      if (userInfo && userInfo.data.clientPrincipal != null) {
-        setUserId(userInfo.data.clientPrincipal.userDetails);
-      }
-      axios
-        .get(`/api/.auth/status/bmoe-twitter`, {
-          headers: {
-            authorizationId: userId,
-          },
-        })
-        .then((response) => {
-          if (response.data !== undefined && response.data === "CONNECTED") {
-            setConnected(true);
-          }
-        });
-    });
+    axios
+      .post("/.auth/me")
+      .then((userInfo) => {
+        if (userInfo && userInfo.data.clientPrincipal != null) {
+          setUserId(userInfo.data.clientPrincipal.userDetails);
+          console.log(userId);
+        }
+      })
+      .then(() => {
+        console.log(userId);
+        axios
+          .get(`/api/.auth/status/bmoe-twitter`, {
+            headers: {
+              authorizationId: userId,
+            },
+          })
+          .then((response) => {
+            if (response.data !== undefined && response.data === "CONNECTED") {
+              setConnected(true);
+            }
+          });
+      });
   });
 
   return (
