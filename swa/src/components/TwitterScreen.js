@@ -40,7 +40,7 @@ function LoginDisplay({ userId, alias }) {
   );
 }
 
-function TwitterConnect({ userId, connected, makeConnection }) {
+function TwitterConnect({ userId, connected, makeConnection, endConnection }) {
   if (userId !== "") {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -55,10 +55,23 @@ function TwitterConnect({ userId, connected, makeConnection }) {
             Connect to Twitter
           </DefaultButton>
         ) : (
-          <Text className="mt-2 mb-2" style={{ fontWeight: "bold" }}>
-            {" "}
-            Your Twitter account is connected
-          </Text>
+          <div
+            className="mt-2"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <Text style={{ fontWeight: "bold" }}>
+              {" "}
+              Your Twitter account is connected
+            </Text>
+            <DefaultButton
+              className="mt-2 mb-2"
+              iconProps={{ iconName: "PlugDisconnected" }}
+              onClick={(e) => endConnection(e)}
+              style={{ width: "20%" }}
+            >
+              Disconnect
+            </DefaultButton>
+          </div>
         )}
       </div>
     );
@@ -116,9 +129,9 @@ function TweetDisplay({ connected, tweet, setTweet, loading, handleSubmit }) {
 
 function TwitterScreen({ setPage }) {
   const [tweet, setTweet] = useState("");
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState("1");
   const [alias, setAlias] = useState("");
-  const [connected, setConnected] = useState(false);
+  const [connected, setConnected] = useState(true);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -164,6 +177,23 @@ function TwitterScreen({ setPage }) {
         } else {
           console.log(error);
         }
+      });
+  };
+
+  const endConnection = async (e) => {
+    var config = {
+      method: "post",
+      url: "/api/.auth/delete/bmoe-twitter",
+      headers: {
+        authorizationId: userId,
+      },
+    };
+    axios(config)
+      .then(() => {
+        setConnected(false);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -229,6 +259,7 @@ function TwitterScreen({ setPage }) {
               userId={userId}
               connected={connected}
               makeConnection={makeConnection}
+              endConnection={endConnection}
             ></TwitterConnect>
             <TweetDisplay
               connected={connected}
