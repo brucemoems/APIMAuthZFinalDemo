@@ -29,7 +29,7 @@ function App() {
             <div className={styles.formHeader + " mb-5"}>
               <Text style={{ fontSize: "40px" }} className={styles.formText}>
                 {" "}
-                Intern Hub{" "}
+                🔱 PSI Intern Hub{" "}
               </Text>
             </div>
             <Content page={page} setPage={setPage}></Content>

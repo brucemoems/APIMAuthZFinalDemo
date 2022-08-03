@@ -52,8 +52,8 @@ function FormScreen({ setPage }) {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Text className="mb-3" style={{ fontSize: FontSizes.medium }}>
               {" "}
-              Fill out this form if you would like to be added to the DevDiv
-              former intern mailing list!{" "}
+              Fill out this form if you would like to be added to the PSI former
+              intern mailing list!{" "}
             </Text>
             <Text style={{ fontSize: FontSizes.medium }}>
               {" "}

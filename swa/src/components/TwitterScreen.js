@@ -86,8 +86,8 @@ function TweetDisplay({ connected, tweet, setTweet, loading, handleSubmit }) {
       <div className="mt-2">
         <Text>
           {" "}
-          Step 3. Create a post that will automatically tag the DevDiv twitter
-          account!{" "}
+          Step 3. Create a post that will automatically tag the PSI interns
+          twitter account!{" "}
         </Text>
         <TextField
           placeholder="Enter Message Here"
@@ -114,12 +114,6 @@ function TweetDisplay({ connected, tweet, setTweet, loading, handleSubmit }) {
         ) : (
           <Spinner size={SpinnerSize.large} className="mb-5"></Spinner>
         )}
-        <TwitterTimelineEmbed
-          className="mt-5"
-          sourceType="profile"
-          screenName="devdivinterns"
-          options={{ height: 400 }}
-        />
       </div>
     );
   } else {
@@ -239,9 +233,9 @@ function TwitterScreen({ setPage }) {
               className="mb-4"
             >
               {" "}
-              Welcome to Intern Hub. Would you like to post about your
+              Welcome to PSI Intern Hub. Would you like to post about your
               internship experience to Twitter and get featured on the official
-              DevDiv intern account?{" "}
+              PSI interns account?{" "}
             </Text>
             <LoginDisplay userId={userId} alias={alias}></LoginDisplay>
             <TwitterConnect
@@ -257,6 +251,13 @@ function TwitterScreen({ setPage }) {
               loading={loading}
               handleSubmit={handleSubmit}
             ></TweetDisplay>
+            <div className="mt-5">
+              <TwitterTimelineEmbed
+                sourceType="profile"
+                screenName="psi_interns"
+                options={{ height: 800 }}
+              />
+            </div>
           </div>
         ) : (
           <div className="mb-3">
