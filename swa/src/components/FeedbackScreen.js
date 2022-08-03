@@ -17,10 +17,11 @@ function FeedbackScreen({ setPage }) {
   const [dislike, setDislike] = useState("");
   const [improve, setImprove] = useState("");
   const [dev, setDev] = useState("");
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const handleSubmit = async (e) => {
+    setLoading(true);
     var data = JSON.stringify({
       values: [[like, dislike, improve, dev, rating]],
     });
@@ -38,6 +39,7 @@ function FeedbackScreen({ setPage }) {
     axios(config)
       .then(function(response) {
         console.log(JSON.stringify(response.data));
+        setLoading(false);
         setSuccess(true);
       })
       .catch(function(error) {
@@ -129,12 +131,6 @@ function FeedbackScreen({ setPage }) {
       <div className="mb-5" style={{ display: "flex", flexDirection: "row" }}>
         <ActionButton
           onClick={(e) => {
-            console.log(setLoading);
-            console.log(like);
-            console.log(dislike);
-            console.log(improve);
-            console.log(dev);
-            console.log(rating);
             setPage(1);
           }}
           iconProps={{ iconName: "Back" }}

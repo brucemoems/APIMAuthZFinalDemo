@@ -127,7 +127,6 @@ function TwitterScreen({ setPage }) {
       if (userInfo && userInfo.data.clientPrincipal != null) {
         setUserId(userInfo.data.clientPrincipal.userId);
         setAlias(userInfo.data.clientPrincipal.userDetails);
-        console.log(userId);
       }
       axios
         .get(`/api/.auth/status/bmoe-twitter`, {
@@ -260,7 +259,6 @@ function TwitterScreen({ setPage }) {
         >
           <ActionButton
             onClick={(e) => {
-              console.log(tweet);
               setPage(2);
             }}
             iconProps={{ iconName: "Forward" }}
