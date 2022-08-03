@@ -1,7 +1,7 @@
 import styles from "./App.module.css";
 import { Container, Row, Col } from "react-bootstrap";
 import React, { useState } from "react";
-import { FontSizes, Text } from "@fluentui/react";
+import { Text } from "@fluentui/react";
 import FormScreen from "./components/FormScreen";
 import TwitterScreen from "./components/TwitterScreen";
 import FeedbackScreen from "./components/FeedbackScreen";
@@ -27,10 +27,7 @@ function App() {
         <Col xs={7} style={{ height: "90vh" }} className="p-0">
           <div className={styles.formContainer}>
             <div className={styles.formHeader + " mb-5"}>
-              <Text
-                style={{ fontSize: FontSizes.xxLargePlus }}
-                className={styles.formText}
-              >
+              <Text style={{ fontSize: "40px" }} className={styles.formText}>
                 {" "}
                 Intern Hub{" "}
               </Text>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   TextField,
-  PrimaryButton,
+  DefaultButton,
   Spinner,
   SpinnerSize,
   ActionButton,
@@ -65,14 +65,14 @@ function FormScreen({ setPage }) {
       <div className="mt-4">
         <TextField
           placeholder="John"
-          label="1. First Name"
+          label="First Name"
           required
           onChange={(_, newValue) => setFirst(newValue)}
           className="mb-5"
         />
         <TextField
           placeholder="Doe"
-          label="2. Last Name"
+          label="Last Name"
           required
           className="mb-5"
           onChange={(_, newValue) => {
@@ -81,7 +81,7 @@ function FormScreen({ setPage }) {
         />
         <TextField
           placeholder="johndoe@outlook.com"
-          label="3. Email"
+          label="Email"
           required
           className="mb-5"
           onChange={(_, newValue) => {
@@ -90,8 +90,7 @@ function FormScreen({ setPage }) {
         />
         <TextField
           placeholder="SWE"
-          label="4. What was your role?"
-          required
+          label="What was your role?"
           className="mb-5"
           onChange={(_, newValue) => {
             setRole(newValue);
@@ -99,8 +98,7 @@ function FormScreen({ setPage }) {
         />
         <TextField
           placeholder="APIM"
-          label="5. What team did you intern on?"
-          required
+          label="What team did you intern on?"
           className="mb-5"
           onChange={(_, newValue) => {
             setTeam(newValue);
@@ -108,13 +106,13 @@ function FormScreen({ setPage }) {
         />
 
         {!loading ? (
-          <PrimaryButton
+          <DefaultButton
             className="mb-5"
             onClick={(e) => handleSubmit(e)}
             variant="primary"
           >
             Submit
-          </PrimaryButton>
+          </DefaultButton>
         ) : (
           <Spinner size={SpinnerSize.large} className="mb-5"></Spinner>
         )}

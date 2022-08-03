@@ -7,11 +7,17 @@ import {
   ActionButton,
   Text,
   FontSizes,
+  Rating,
+  RatingSize,
 } from "@fluentui/react";
 // import axios from "axios";
 
 function FeedbackScreen({ setPage }) {
-  const [feedback, setFeedback] = useState("");
+  const [like, setLike] = useState("");
+  const [dislike, setDislike] = useState("");
+  const [improve, setImprove] = useState("");
+  const [dev, setDev] = useState("");
+  const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     setPage(3);
@@ -31,14 +37,53 @@ function FeedbackScreen({ setPage }) {
       </Text>
       <div className="mt-4">
         <TextField
-          placeholder="Enter feedback"
-          label="Feedback"
-          required
+          placeholder="Engaging project, fun intern events, etc."
+          label="What did you like about your internship?"
           className="mb-5"
           multiline
           autoAdjustHeight
           onChange={(_, newValue) => {
-            setFeedback(newValue);
+            setLike(newValue);
+          }}
+        />
+        <TextField
+          placeholder="Too much work, not enough socials, etc."
+          label="What did you dislike about your internship?"
+          className="mb-5"
+          multiline
+          autoAdjustHeight
+          onChange={(_, newValue) => {
+            setDislike(newValue);
+          }}
+        />
+        <TextField
+          placeholder="More networking events, clearer project expectations, etc."
+          label="What could have been improved?"
+          className="mb-5"
+          multiline
+          autoAdjustHeight
+          onChange={(_, newValue) => {
+            setImprove(newValue);
+          }}
+        />
+        <TextField
+          placeholder="Yes, because..."
+          label="Would you return fulltime to DevDiv?"
+          className="mb-5"
+          multiline
+          autoAdjustHeight
+          onChange={(_, newValue) => {
+            setDev(newValue);
+          }}
+        />
+        Rate your internship experience
+        <Rating
+          max={10}
+          size={RatingSize.Large}
+          defaultRating={1}
+          className="mb-5"
+          onChange={(_, newValue) => {
+            setRating(newValue);
           }}
         />
         {!loading ? (
@@ -55,8 +100,12 @@ function FeedbackScreen({ setPage }) {
         <div className="mb-5" style={{ display: "flex", flexDirection: "row" }}>
           <ActionButton
             onClick={(e) => {
-              console.log(feedback);
               console.log(setLoading);
+              console.log(like);
+              console.log(dislike);
+              console.log(improve);
+              console.log(dev);
+              console.log(rating);
               setPage(1);
             }}
             iconProps={{ iconName: "Back" }}

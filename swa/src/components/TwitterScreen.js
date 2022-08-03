@@ -4,6 +4,116 @@ import { TwitterTimelineEmbed } from "react-twitter-embed";
 import { ActionButton, DefaultButton } from "@fluentui/react/lib/Button";
 import axios from "axios";
 
+function LoginDisplay({ userId, alias }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Text> Step 1. Login using Microsoft </Text>
+      {userId === "" ? (
+        <DefaultButton
+          className="mt-2"
+          iconProps={{ iconName: "AuthenticatorApp" }}
+          href="/.auth/login/aad"
+          style={{ width: "20%" }}
+        >
+          Login
+        </DefaultButton>
+      ) : (
+        <div
+          className="mt-2"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
+          <Text style={{ fontWeight: "bold" }}>
+            {" "}
+            You are logged in as {alias}
+          </Text>
+          <DefaultButton
+            className="mt-2"
+            iconProps={{ iconName: "SignOut" }}
+            href="/.auth/logout"
+            style={{ width: "20%" }}
+          >
+            Logout
+          </DefaultButton>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TwitterConnect({ userId, connected, makeConnection }) {
+  if (userId !== "") {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Text className="mt-3"> Step 2. Connect your Twitter account </Text>
+        {!connected ? (
+          <DefaultButton
+            className="mt-2"
+            style={{ width: "25%" }}
+            iconProps={{ iconName: "PlugConnected" }}
+            onClick={(e) => makeConnection(e)}
+          >
+            Connect to Twitter
+          </DefaultButton>
+        ) : (
+          <Text className="mt-2 mb-2" style={{ fontWeight: "bold" }}>
+            {" "}
+            Your Twitter account is connected
+          </Text>
+        )}
+      </div>
+    );
+  } else {
+    return null;
+  }
+}
+
+function TweetDisplay({ connected, tweet, setTweet, loading, handleSubmit }) {
+  if (connected) {
+    return (
+      <div className="mt-2">
+        <Text>
+          {" "}
+          Step 3. Create a post that will automatically tag the DevDiv twitter
+          account!{" "}
+        </Text>
+        <TextField
+          placeholder="Enter Message Here"
+          label="Tweet"
+          multiline
+          autoAdjustHeight
+          value={tweet}
+          inputProps={{ maxLength: 20 }}
+          onChange={(_, newValue) => {
+            if (!newValue || newValue.length <= 280) {
+              setTweet(newValue || "");
+            }
+          }}
+          className="mb-5 mt-3"
+        />
+        {!loading ? (
+          <ActionButton
+            className="mb-5"
+            onClick={(e) => handleSubmit(e)}
+            iconProps={{ iconName: "Send" }}
+          >
+            Post Tweet!
+          </ActionButton>
+        ) : (
+          <Spinner size={SpinnerSize.large} className="mb-5"></Spinner>
+        )}
+        <TwitterTimelineEmbed
+          className="mt-5"
+          sourceType="profile"
+          screenName="devdivinterns"
+          options={{ height: 400 }}
+        />
+      </div>
+    );
+  } else {
+    return null;
+  }
+}
+
 function TwitterScreen({ setPage }) {
   const [tweet, setTweet] = useState("");
   const [userId, setUserId] = useState("");
@@ -100,102 +210,34 @@ function TwitterScreen({ setPage }) {
     >
       <div className="mb-5">
         {!success ? (
-          <div>
-            <div
-              style={{ display: "flex", flexDirection: "column" }}
-              className="mb-3"
-            >
-              <Text
-                style={{
-                  overflow: "hidden",
-                }}
-                className="mb-4"
-              >
-                {" "}
-                Welcome to Intern Hub. Would you like to post about your
-                internship experience to Twitter and get featured?{" "}
-              </Text>
-              <Text> Step 1. Login using Microsoft </Text>
-              {userId === "" ? (
-                <DefaultButton
-                  className="mt-2"
-                  iconProps={{ iconName: "AuthenticatorApp" }}
-                  href="/.auth/login/aad"
-                  style={{ width: "20%" }}
-                >
-                  Login
-                </DefaultButton>
-              ) : (
-                <div
-                  className="mt-2"
-                  style={{ display: "flex", flexDirection: "column" }}
-                >
-                  <Text style={{ fontWeight: "bold" }}>
-                    {" "}
-                    You are logged in as {alias}
-                  </Text>
-                  <DefaultButton
-                    className="mt-2"
-                    iconProps={{ iconName: "SignOut" }}
-                    href="/.auth/logout"
-                    style={{ width: "20%" }}
-                  >
-                    Logout
-                  </DefaultButton>
-                </div>
-              )}
-              <Text className="mt-3">
-                {" "}
-                Step 2. Connect your Twitter account{" "}
-              </Text>
-              {!connected ? (
-                <DefaultButton
-                  className="mt-2"
-                  style={{ width: "25%" }}
-                  iconProps={{ iconName: "PlugConnected" }}
-                  onClick={(e) => makeConnection(e)}
-                >
-                  Connect to Twitter
-                </DefaultButton>
-              ) : (
-                <Text className="mt-2" style={{ fontWeight: "bold" }}>
-                  {" "}
-                  Your Twitter account is connected
-                </Text>
-              )}
-
-              <Text className="mt-3">
-                {" "}
-                Step 3. Create a post that will automatically tag the DevDiv
-                twitter account!{" "}
-              </Text>
-            </div>
-            <TextField
-              placeholder="Enter Message Here"
-              label="Tweet"
-              multiline
-              autoAdjustHeight
-              required
-              value={tweet}
-              inputProps={{ maxLength: 20 }}
-              onChange={(_, newValue) => {
-                if (!newValue || newValue.length <= 280) {
-                  setTweet(newValue || "");
-                }
+          <div
+            style={{ display: "flex", flexDirection: "column" }}
+            className="mb-3"
+          >
+            <Text
+              style={{
+                overflow: "hidden",
               }}
-              className="mb-5"
-            />
-            {!loading ? (
-              <ActionButton
-                className="mb-5"
-                onClick={(e) => handleSubmit(e)}
-                iconProps={{ iconName: "Send" }}
-              >
-                Post Tweet!
-              </ActionButton>
-            ) : (
-              <Spinner size={SpinnerSize.large} className="mb-5"></Spinner>
-            )}
+              className="mb-4"
+            >
+              {" "}
+              Welcome to Intern Hub. Would you like to post about your
+              internship experience to Twitter and get featured on the official
+              DevDiv intern account?{" "}
+            </Text>
+            <LoginDisplay userId={userId} alias={alias}></LoginDisplay>
+            <TwitterConnect
+              userId={userId}
+              connected={connected}
+              makeConnection={makeConnection}
+            ></TwitterConnect>
+            <TweetDisplay
+              connected={connected}
+              tweet={tweet}
+              setTweet={setTweet}
+              loading={loading}
+              handleSubmit={handleSubmit}
+            ></TweetDisplay>
           </div>
         ) : (
           <div className="mb-3">
@@ -209,12 +251,6 @@ function TwitterScreen({ setPage }) {
             </Text>
           </div>
         )}
-        <TwitterTimelineEmbed
-          className="mt-5"
-          sourceType="profile"
-          screenName="devdivinterns"
-          options={{ height: 400 }}
-        />
         <div
           className="mb-5"
           style={{
