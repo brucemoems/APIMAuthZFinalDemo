@@ -13,9 +13,7 @@ import axios from "axios";
 function FormScreen({ setPage }) {
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
-  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
-  const [team, setTeam] = useState("");
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     try {
@@ -23,8 +21,7 @@ function FormScreen({ setPage }) {
       var data = JSON.stringify({
         FirstName: first,
         LastName: last,
-        Company: team,
-        Title: role,
+        Company: "Microsoft",
         Email: email,
       });
       await axios
@@ -86,22 +83,6 @@ function FormScreen({ setPage }) {
           className="mb-5"
           onChange={(_, newValue) => {
             setEmail(newValue);
-          }}
-        />
-        <TextField
-          placeholder="SWE"
-          label="What was your role?"
-          className="mb-5"
-          onChange={(_, newValue) => {
-            setRole(newValue);
-          }}
-        />
-        <TextField
-          placeholder="APIM"
-          label="What team did you intern on?"
-          className="mb-5"
-          onChange={(_, newValue) => {
-            setTeam(newValue);
           }}
         />
 
