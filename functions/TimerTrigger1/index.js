@@ -7,24 +7,40 @@ export default async function (context, myTimer) {
     context.log("JavaScript is running late!");
   }
 
-  var yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
+  var currTime = new Date();
+  var fiveMinutesBefore = new Date(currTime.getTime() - 300000);
 
-  const startTime = yesterday.toISOString();
+  const startTime = fiveMinutesBefore.toISOString();
 
   var config = {
     method: "get",
-    url: `https://bmoe.azure-api.net/api/twitter/users/1554513760907173889/mentions?start_time=${startTime}`,
+    url: `${process.env.BaseUrl}/mentions?start_time=${startTime}`,
     headers: {
-      "Ocp-Apim-Subscription-Key": "ebf8deddbcc54e62ac2348c8bd8589f5",
-      "connector-id": "bmoe-twitter",
-      "connection-id": "bmoe-twitter",
+      "Ocp-Apim-Subscription-Key": process.env.SubscriptionKey,
+      "connector-id": process.env.ConnectorId,
+      "connection-id": process.env.ConnectionId,
     },
   };
 
   axios(config)
     .then(function (response) {
-      console.log(JSON.stringify(response.data.data));
+      console.log(JSON.stringify(response.data));
+      if (response.data.meta.result_count > 0) {
+        response.data.data.map((tweet) => {
+          const id = tweet.id;
+          var data = JSON.stringify({
+            tweet_id: id,
+          });
+          axios.post(`${process.env.BaseUrl}/retweets`, data, {
+            headers: {
+              "Ocp-Apim-Subscription-Key": process.env.SubscriptionKey,
+              "content-type": "application/json",
+              "connector-id": process.env.ConnectorId,
+              "connection-id": process.env.ConnectionId,
+            },
+          });
+        });
+      }
     })
     .catch(function (error) {
       console.log(error);
