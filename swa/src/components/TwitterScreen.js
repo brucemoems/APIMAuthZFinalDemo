@@ -195,7 +195,7 @@ function TwitterScreen({ setPage }) {
     try {
       setLoading(true);
       var data = JSON.stringify({
-        text: tweet + " @DevDivInterns",
+        text: tweet + " @PSI_Interns",
       });
       await axios
         .post(`/api/twitter/tweets`, data, {
