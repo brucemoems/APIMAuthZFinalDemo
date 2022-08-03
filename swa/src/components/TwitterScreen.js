@@ -129,9 +129,9 @@ function TweetDisplay({ connected, tweet, setTweet, loading, handleSubmit }) {
 
 function TwitterScreen({ setPage }) {
   const [tweet, setTweet] = useState("");
-  const [userId, setUserId] = useState("1");
+  const [userId, setUserId] = useState("");
   const [alias, setAlias] = useState("");
-  const [connected, setConnected] = useState(true);
+  const [connected, setConnected] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
