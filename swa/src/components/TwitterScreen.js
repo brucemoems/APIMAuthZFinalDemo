@@ -211,18 +211,7 @@ function TwitterScreen({ setPage }) {
             "connection-id": userId,
           },
         })
-        .then((response) => {
-          const id = response.data.data.id;
-          var data = JSON.stringify({
-            tweet_id: id,
-          });
-          axios.post(`/api/twitter/users/1554513760907173889/retweets`, data, {
-            headers: {
-              "content-type": "application/json",
-              "connector-id": "bmoe-twitter",
-              "connection-id": "bmoe-twitter",
-            },
-          });
+        .then(() => {
           setLoading(false);
           setSuccess(true);
         });
