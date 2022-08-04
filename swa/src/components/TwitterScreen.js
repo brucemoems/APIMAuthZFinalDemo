@@ -156,8 +156,7 @@ function TwitterScreen({ setPage }) {
       url: "/api/.auth/create/bmoe-twitter",
       headers: {
         authorizationId: userId,
-        postLoginRedirectUrl:
-          "https://ashy-ground-0e9efb810.1.azurestaticapps.net/",
+        postLoginRedirectUrl: window.location.href,
       },
     };
     axios(config)
